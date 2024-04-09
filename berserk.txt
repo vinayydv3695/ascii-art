@@ -1,0 +1,63 @@
+Step:-1 download the video, then create a folder,and cut or copy your video on it
+
+Step:-2  then create a frames directory in folder
+
+Step:-3 ffmpeg -i BadApple.mp4 -vf fps=30 frames/out%04d.jpg  # change badapple.mp4 woth your video
+
+Step:-4 then create another directory in folder frames-accii
+
+Step:-5 then cd into frames
+
+Step:-6 paste it in frames directory this command is for bash users,
+ 
+ for file in *; do ascii-image-converter $file > "../frames-ascii/${file%.jpg}.txt"; done
+for zsh users ,
+
+for file in ./**/*(.); ascii-image-converter $file > " ../frames-ascii/${file%.jpg}.txt"
+
+
+Step:-7 then cd into frames-ascii and check by using the following command,
+cat out4567.txt
+
+    # if it shows a ascii art then everything is nicely done
+
+  Step:-8 cd back into folder and create a create touch file_name.c++
+
+Step:-9  then use your favourite text editor for perference i use nano btw
+
+  Step:-10 open it by using sudo nano file_name.c++
+ 
+Step:-11 now for the code is
+ 
+                                                                                                                    
+#include <iostream>
+#include <fstream>
+#include <chrono>
+#include <thread>
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
+int main() {
+    std::string dir = "frames-ascii";
+
+    for (const auto& entry : fs::directory_iterator(dir)) {
+        if (entry.is_regular_file()) {
+            std::ifstream file(entry.path());
+            if (file.is_open()) {
+                std::cout << file.rdbuf();
+                file.close();
+            }
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / 30));
+    }
+
+    return 0;
+}
+
+       
+Step:-12 now you are done 
+gcc -o file file.cpp
+then ./
+and you are done enjoy!!
+#bye bye
